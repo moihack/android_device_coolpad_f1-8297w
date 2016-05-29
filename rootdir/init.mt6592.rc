@@ -1,23 +1,9 @@
 import init.mt6592.usb.rc
 import init.modem.rc
+import init.ssd.rc
 
 on init
     export LD_PRELOAD /system/lib/libxlog.so
-    export EXTERNAL_STORAGE /storage/sdcard0
-    export SECONDARY_STORAGE /storage/sdcard1
-
-    mkdir /storage/sdcard0 0700 root root
-    mkdir /storage/sdcard1 0700 root root
-
-    symlink /storage/sdcard0 /sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
-
-    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
-    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
-
-    # USB OTG
-    mkdir /storage/usbotg 0700 root root
-    mkdir /mnt/media_rw/usbotg 0700 media_rw media_rw
 
     chown system graphics /dev/ion
     chmod 0644 /dev/ion
@@ -110,6 +96,8 @@ on init
     chmod 0660 /dev/DW9714AF
     chmod 0660 /dev/DW9718AF
     chmod 0660 /dev/OV8825AF
+    chmod 0660 /dev/IMX135FOXCONNAF
+    chmod 0660 /dev/IMX135SUNNYAF
     chmod 0660 /dev/CAM_CAL_DRV
 
     chown system camera /dev/camera-sysram
@@ -122,6 +110,8 @@ on init
     chown system camera /dev/DW9714AF
     chown system camera /dev/DW9718AF
     chown system camera /dev/OV8825AF
+    chown system camera /dev/IMX135FOXCONNAF
+    chown system camera /dev/IMX135SUNNYAF
     chown system camera /dev/CAM_CAL_DRV
 
     chown system system /dev/RT_Monitor
@@ -582,18 +572,6 @@ service BGW /system/xbin/BGW
     group gps system radio
     class main
     oneshot
-
-# virtual sdcard daemon running as media_rw (1023)
-service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/sdcard0 /storage/sdcard0
-    class late_start
-    disabled
-service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/sdcard1 /storage/sdcard1
-    class late_start
-    disabled
-service fuse_usbotg /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/usbotg /storage/usbotg
-    class late_start
-    disabled
-
 
 # CM Performance Profiles
 
