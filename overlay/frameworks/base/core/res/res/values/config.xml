@@ -128,6 +128,12 @@
     </integer-array>
 
     <bool name="config_user_notification_of_restrictied_mobile_access">false</bool>
+    
+    <!-- Does the notification LED support multiple colors? Used to decide if the user can change the colors -->
+    <bool name="config_multiColorNotificationLed">true</bool>
+    
+    <!-- Enable the electron beam -->
+    <bool name="config_animateScreenLights">true</bool>
 
     <!-- Performance profiles -->
     <string name="config_perf_profile_prop">sys.perf.profile</string>
