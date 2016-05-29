@@ -14,13 +14,13 @@
 
 * Compilation
 
-        # repo init -u git://github.com/fire855/android.git -b cm-12.1
+        # repo init -u git://github.com/moihack/android-mtk.git -b cm-12.1_cp-8297w
         
         # repo sync
         
         # source build/envsetup.sh
         
-        # brunch cm_k1_turbo-userdebug
+        # brunch cm_f1_8297w-userdebug
 
 # MTK
 
