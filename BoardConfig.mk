@@ -89,7 +89,7 @@ BOARD_BLUETOOTH_DOES_NOT_USE_RFKILL := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/coolpad/f1_8297w/bluetooth
 
 # CWM
-#TARGET_RECOVERY_FSTAB := device/coolpad/f1_8297w/rootdir/recovery.fstab
+TARGET_RECOVERY_FSTAB := device/coolpad/f1_8297w/rootdir/recovery.fstab
 BOARD_HAS_NO_SELECT_BUTTON := true
 
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
