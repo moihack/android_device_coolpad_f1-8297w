@@ -31,6 +31,7 @@ PRODUCT_PACKAGES += \
     audio.r_submix.default
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
+    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf
 
 # Wifi
@@ -53,6 +54,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     gsm0710muxd \
     gsm0710muxdmd2
+
+PRODUCT_COPY_FILES += \
+     $(LOCAL_PATH)/configs/spn-conf.xml:system/etc/spn-conf.xml
 
 # GPS
 PRODUCT_COPY_FILES += \
@@ -126,10 +130,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     FMRadio \
     libfmjni \
-    libfmmt6620 \
-    libfmmt6628 \
-    libfmmt6627 \
-    libfmmt6630 \
     libfmcust \
     libmtkplayer
 
@@ -140,10 +140,6 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     Snap
-	
-# Set default player to AwesomePlayer
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.media.use-awesome=true
 
 $(call inherit-product, build/target/product/full.mk)
 

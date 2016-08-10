@@ -41,23 +41,18 @@ on init
     chown system media /dev/MJC
     chmod 0660 /dev/MJC
 
-    chown media media /dev/ccci_pcm_rx
-    chmod 0660 /dev/ccci_pcm_rx
-    chown media media /dev/ccci_pcm_tx
-    chmod 0660 /dev/ccci_pcm_tx
-
     chown bluetooth radio /dev/ttyGS2
     chmod 0660 /dev/ttyGS2
     chown system radio /dev/ttyGS3
     chmod 0660 /dev/ttyGS3
     chown system /dev/ttyGS0
-    chmod 660 /dev/ttyGS0 
+    chmod 660 /dev/ttyGS0
     chown system /dev/ttyGS1
     chmod 660 /dev/ttyGS1
 
     chown bluetooth bluetooth /dev/hid-keyboard
     chmod 0660 /dev/hid-keyboard
-    
+
     chown system media /dev/uibc
     chmod 0660 /dev/uibc
 
@@ -91,7 +86,7 @@ on init
     chown system system /proc/wmt_tm/tx_thro
     chown system system /proc/wmt_tm/wmt_val
     chown system system /proc/wmt_tm/wfd_stat
-    
+
     # JPEG
     chmod 0444 /dev/mtk_jpeg
     chown system camera /dev/mtk_jpeg
@@ -127,12 +122,18 @@ on init
     chown root radio /dev/mt_otg_test
     chmod 0660 /dev/mt_otg_test
 
-    chown system media /dev/MTK_SMI
+    chown system camera /dev/MTK_SMI
     chmod 0660 /dev/MTK_SMI
+    chown system camera /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
+    chmod 0660 /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
+
     chown system media /dev/mtk_sched
     chmod 0660 /dev/mtk_sched
     chown system media /dev/ebc
     chmod 0660 /dev/ebc
+
+    chown system media /proc/M4U_device
+    chmod 0666 /proc/M4U_device
 
     # Sensor
     chmod 0666 /dev/hwmsensor
@@ -168,7 +169,7 @@ on init
 
     # Charge
     chmod 0666 /dev/MT_pmic_adc_cali
-	
+
     # Accdet
     chown root radio /sys/devices/platform/Accdet_Driver/driver/accdet_call_state
 
@@ -195,7 +196,7 @@ on init
     chown system /sys/class/input/input5/wake
     chown system /sys/class/input/input3/enable
     chown system /sys/class/input/input3/wake
-    chown system /sys/class/input/input4/offsets    
+    chown system /sys/class/input/input4/offsets
     chown system /sys/devices/platform/msensor/driver/cpsopmode
     chown system /sys/devices/platform/msensor/driver/cpsreptxy
     chown system /sys/devices/platform/msensor/driver/cpsreptz
@@ -218,7 +219,7 @@ on init
     chmod 0660 /sys/power/wake_unlock
     chmod 0664 /sys/class/leds/lcd-backlight/brightness
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_slack   
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_slack
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/target_loads
@@ -284,7 +285,7 @@ on post-fs
     exec /system/xbin/mknod /dev/Vcodec c 160 0
     chmod 0666 /dev/Vcodec
     chown system media /dev/Vcodec
-	
+
     # devmap
     exec /system/xbin/mknod /dev/devmap c 196 0
     chmod 0444 /dev/devmap
@@ -318,7 +319,10 @@ on post-fs
     chmod 0660 /dev/wmtdetect
     chown system system /dev/wmtdetect
 
-    mkdir /data/nvram 2770 root system
+    mkdir /data/nvram 0770 media system
+    mkdir /data/nvram/APCFG 0770 media system
+    mkdir /data/nvram/APCFG/APRDCL 0770 media system
+    mkdir /data/nvram/APCFG/APRDEB 0770 media system
     chmod 0770 /dev/nvram
 
     chown radio radio /sys/kernel/ccci/boot
@@ -328,13 +332,13 @@ on post-fs
     chmod 0444 /system/etc/ril/oper.lis
     setprop rild.nw.operlist /system/etc/ril/oper.lis
 
-service wmtLoader /system/bin/logwrapper /system/bin/wmt_loader
+service wmtLoader /system/bin/wmt_loader
     user root
     group root
     class main
     oneshot
-   
-service conn_launcher /system/bin/logwrapper /system/bin/6620_launcher -p /system/etc/firmware/
+
+service conn_launcher /system/bin/6620_launcher -p /system/etc/firmware/
     user system
     group system
     class core
@@ -433,20 +437,6 @@ service thermald /system/bin/thermald
     user system
     group system
 
-service mdlogger /system/bin/mdlogger
-    class main
-    user root
-    group shell system radio sdcard_rw inet sdcard_r media_rw ccci
-    disabled
-    oneshot
-
-service dualmdlogger /system/bin/dualmdlogger
-    class main
-    user shell
-    group shell system radio sdcard_rw inet sdcard_r media_rw ccci
-    disabled
-    oneshot
-
 service emcsmdlogger /system/bin/emcsmdlogger
     class main
     user shell
@@ -475,14 +465,14 @@ service ami304d /system/bin/ami304d
     class main
 
 service memsicd /system/bin/memsicd
-     disabled
+    disabled
     user system
     group system
     class main
 
 service memsicd3416x /system/bin/memsicd3416x
      disabled
-	 user system
+    user system
     group system
     class main
 
@@ -521,7 +511,7 @@ service mc6420d /system/bin/mc6420d
     user system
     group system
     class main
-    
+
 service qmc5983d /system/bin/qmc5983d
      disabled
 	 user system
@@ -534,25 +524,13 @@ service orientationd /system/bin/orientationd
     group system input
     class main
 
-service AcdApiDaemon /system/bin/AcdApiDaemon
-    disabled
-    user system
-    group system
-    class main
-
 service geomagneticd /system/bin/geomagneticd
     disabled
     user system
     group system input
     class main
-    
-service mc64xxd /system/bin/mc64xxd
-    disabled
-    user system
-    group system
-    class main
-    
-        
+
+
 #
 #sensor service (end)
 #
@@ -593,6 +571,7 @@ service ipod /system/bin/ipod
     user root
     group root
     class ipo
+    disabled
 
 # CM Performance Profiles
 
@@ -631,4 +610,3 @@ on property:sys.perf.profile=2
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq "1664000"
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq "598000"
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "performance"
-

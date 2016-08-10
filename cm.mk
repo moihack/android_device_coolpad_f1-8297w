@@ -13,5 +13,5 @@ $(call inherit-product, device/kingzone/k1_turbo/device_k1-turbo.mk)
 PRODUCT_DEVICE := k1_turbo
 PRODUCT_NAME := cm_k1_turbo
 PRODUCT_BRAND := KINGZONE
-PRODUCT_MODEL := K1_turbo
+PRODUCT_MODEL := K1 Turbo
 PRODUCT_MANUFACTURER := KINGZONE
