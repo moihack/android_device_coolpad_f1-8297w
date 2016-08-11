@@ -1,5 +1,5 @@
 #
-# system.prop for kingzone k1 turbo
+# system.prop for Coolpad F1 8297W
 #
 
 rild.libpath=/system/lib/mtk-ril.so

@@ -1,23 +1,12 @@
 import init.mt6592.usb.rc
 import init.modem.rc
-
-on charger
-    mount ext4 /emmc@android /system ro wait
-    start drvbd
-    start ipod
-    start servicemanager
-
-    # disable USB
-    write /sys/devices/platform/mt_usb/cmode 0
+import init.ssd.rc
 
 on init
     export LD_PRELOAD "libxlog.so"
 
     # By default, primary storage is physical
     setprop ro.vold.primary_physical 1
-
-    symlink /sdcard /mnt/sdcard
-    symlink /sdcard /storage/sdcard0
 
     chown system graphics /dev/ion
     chmod 0644 /dev/ion
@@ -103,7 +92,9 @@ on init
     chmod 0660 /dev/DW9718AF
     chmod 0660 /dev/OV8825AF
     chmod 0660 /dev/CAM_CAL_DRV
-
+    chmod 0660 /dev/IMX135FOXCONNAF
+    chmod 0660 /dev/IMX135SUNNYAF
+    
     chown system camera /dev/camera-sysram
     chown system camera /dev/camera-isp
     chown system camera /dev/camera-pipemgr
@@ -115,6 +106,8 @@ on init
     chown system camera /dev/DW9718AF
     chown system camera /dev/OV8825AF
     chown system camera /dev/CAM_CAL_DRV
+    chown  system camera /dev/IMX135FOXCONNAF
+    chown  system camera /dev/IMX135SUNNYAF
 
     chown system system /dev/RT_Monitor
     chmod 0600 /dev/RT_Monitor
